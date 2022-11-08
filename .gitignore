@@ -27,6 +27,14 @@ share/python-wheels/
 *.egg
 MANIFEST
 
+AudioTaggingDoneRight/egs/audioset/data/
+AudioTaggingDoneRight/egs/audioset/exp/
+AudioTaggingDoneRight/egs/speechcommands/exp/
+AudioTaggingDoneRight/egs/esc50/exp/
+unbalanced_train_segments.csv
+balanced_train_segments.csv
+eval_segments.csv
+AudioTaggingDoneRight/pretrained_models/hub/checkpoints/deit_base_distilled_patch16_384-d0272ac0.pth
 # PyInstaller
 #  Usually these files are written by a python script from a template
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.

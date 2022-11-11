@@ -3,8 +3,7 @@
 export TORCH_HOME=../../pretrained_models
 hostname=$(hostname | cut -d'.' -f1)
 echo "Current Machine is ${hostname}"
-slurm_id=12913345
-#$(squeue -u billyli | grep $hostname | awk '{ print $1; }')
+slurm_id=$(squeue -u billyli | grep $hostname | awk '{ print $1; }')
 echo "Slurm ID is __${slurm_id}__"
 python prep_AudioSet.py --slurm-id ${slurm_id}
 slurm_folder=/local/slurm-${slurm_id}/local/audio/data/datafiles
@@ -16,7 +15,7 @@ imagenetpretrain=True
 if [ $set == balanced ]
 then
   bal=none
-  lr=5e-5
+  lr=4e-5
   epoch=25
   tr_data=${slurm_folder}/audioset_bal_train_data_v.json
 else
@@ -27,17 +26,17 @@ else
 fi
 te_data=${slurm_folder}/audioset_eval_data_v.json
 freqm=12
-n_mels=64
+n_mels=64 # try 128 (fourier transform)
 timem=60
 mixup=0.3
 # corresponding to overlap of 6 for 16*16 patches
 fstride=4
 tstride=4
-batch_size=24
+batch_size=10
 mean=-29.686901
 std=40.898224
-suffix=ast_super_res
-exp_dir=./exp/lauratest7-${model}-${dataset}-${set}-f$fstride-t$tstride-p$imagenetpretrain-b$batch_size-lr${lr}-fm${freqm}-tm${timem}-mix${mixup}-m${mean}-std${std}-epoch${epoch}-${suffix}
+suffix=billy_retry6
+exp_dir=./exp/lauratest-bal-w-batch-10-test-2-${model}-${dataset}-${set}-f$fstride-t$tstride-p$imagenetpretrain-b$batch_size-lr${lr}-fm${freqm}-tm${timem}-mix${mixup}-m${mean}-std${std}-epoch${epoch}-${suffix}
 expid=-${model}-${set}-f${fstride}-t${tstride}-pre${imagenetpretrain}-b${batch_size}-lr${lr}-mix${mixup}-freqm${freqm}-timem${timem}-m${mean}-std${std}
 logger=${exp_dir}/${expid}.txt
 if [ -d $exp_dir ]; then

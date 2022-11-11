@@ -10,7 +10,7 @@ import csv
 import argparse
 
 parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument("--slurm-id", type=str, default='12913345', help="the root path of audio data")
+parser.add_argument("--slurm-id", type=str, default='12944652', help="the root path of audio data")
 
 if __name__ == '__main__':
     args = parser.parse_args()
@@ -37,7 +37,7 @@ if __name__ == '__main__':
                 unbal_count += 1
             else:
                 wav_path = os.path.join(base_path, 'unbalanced_wav',row[0] +'.wav')
-                vid_path = os.path.join(vid_start_path, 'featr_unbalanced_padded', row[0]+'.npy')
+                vid_path = os.path.join(vid_start_path, 'featr_unbalanced', row[0]+'.npy')
                 if os.path.exists(wav_path) and os.path.exists(vid_path):
                     cur_unbal_dict = {"wav": wav_path, "labels": eval(','.join(row[3:])), "video": vid_path}
     #             print(cur_unbal_dict)

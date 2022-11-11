@@ -116,7 +116,10 @@ def train(audio_model, train_loader, test_loader, args):
                 print('warm-up learning rate is {:f}'.format(optimizer.param_groups[0]['lr']))
 
 #             with autocast():
-            audio_output = audio_model(audio_input, video_input)
+#             print('debug', type(audio_input.data),type(video_input.data))
+            audio_input.type(torch.cuda.FloatTensor)
+            video_input.type(torch.cuda.FloatTensor)
+            audio_output = audio_model(audio_input.cuda(), video_input.cuda())
             if isinstance(loss_fn, torch.nn.CrossEntropyLoss):
                 loss = loss_fn(audio_output, torch.argmax(labels.long(), axis=1))
             elif isinstance(loss_fn, torch.nn.BCEWithLogitsLoss):
@@ -281,7 +284,9 @@ def validate(audio_model, val_loader, args, epoch):
             audio_input = audio_input.to(device)
 
             # compute output
-            audio_output = audio_model(audio_input, video_input)
+            audio_input.type(torch.cuda.FloatTensor)
+            video_input.type(torch.cuda.FloatTensor)
+            audio_output = audio_model(audio_input.cuda(), video_input.cuda())
             if args.model == 'ast':
                 audio_output = torch.sigmoid(audio_output)
             predictions = audio_output.to('cpu').detach()

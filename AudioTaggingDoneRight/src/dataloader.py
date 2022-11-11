@@ -177,13 +177,15 @@ class AudiosetDataset(Dataset):
             for label_str in mix_datum['labels'].split(','):
                 label_indices[int(self.index_dict[label_str])] += 1.0-mix_lambda
             label_indices = torch.FloatTensor(label_indices)
-            vid_feat = np.load(datum['video'])
+            vid_feat = np.squeeze(np.load(datum['video']))
+            #print(vid_feat.shape)
         # if not do mixup
         else:
             datum = self.data[index]
             label_indices = np.zeros(self.label_num)
             fbank, mix_lambda = self._wav2fbank(datum['wav'])
-            vid_feat = np.load(datum['video'])
+            vid_feat = np.squeeze(np.load(datum['video']))
+            #print(vid_feat.shape)
             for label_str in datum['labels'].split(','):
                 label_indices[int(self.index_dict[label_str])] = 1.0
 
@@ -222,7 +224,7 @@ class AudiosetDataset(Dataset):
         mix_ratio = min(mix_lambda, 1-mix_lambda) / max(mix_lambda, 1-mix_lambda)
 
         # the output fbank shape is [time_frame_num, frequency_bins], e.g., [1024, 128]
-        return fbank, label_indices, vid_feat
+        return fbank, label_indices, vid_feat.astype(np.float32)
 
     def __len__(self):
         return len(self.data)

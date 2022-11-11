@@ -23,7 +23,7 @@ def make_index_dict(label_csv):
     return index_lookup
 
 parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument("--data_path", type=str, default='/jet/home/billyli/data_folder/ast/egs/audioset/data/datafiles/audioset_bal_unbal_train_data.json', help="the root path of data json file")
+parser.add_argument("--data_path", type=str, default='/local/slurm-12913345/local/audio/data/datafiles/audioset_bal_unbal_train_data_v.json', help="the root path of data json file")
 
 if __name__ == '__main__':
     args = parser.parse_args()
